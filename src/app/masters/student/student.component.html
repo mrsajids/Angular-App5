@@ -1,12 +1,64 @@
-<p>
-  student works! Lorem ipsum dolor sit amet consectetur adipisicing elit. Est
-  nesciunt in eos assumenda dolor rem. Nisi consectetur enim obcaecati ea, eaque
-  possimus incidunt, provident autem cum fugiat eveniet aut voluptatem maiores,
-  fuga minima non odit doloribus quam a saepe eum nam. Debitis veritatis
-  incidunt voluptatibus corporis quis! Similique porro, exercitationem
-  voluptates facilis facere, ducimus labore dicta inventore delectus consequatur
-  et quidem mollitia fuga tenetur maiores voluptas! Blanditiis temporibus
-  architecto, laborum repellendus molestiae, veniam commodi tenetur at in neque
-  harum! Fugiat nostrum quisquam aspernatur ad ut natus odit rem ipsum eum
-  possimus vitae sint, at ipsam tempora asperiores, mollitia, atque obcaecati?
-</p>
+<div class="container">
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+      <a
+        class="nav-link active"
+        id="detailssection"
+        data-bs-toggle="tab"
+        href="#details-section"
+        role="tab"
+        aria-controls="details-section"
+        >Department Details</a
+      >
+    </li>
+    <!-- [ngClass]="allowedPermission.addpermission   == 'false' ? 'disabled_Add_Button': ''" -->
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        id="formsection"
+        data-bs-toggle="tab"
+        href="#form-section"
+        role="tab"
+        aria-controls="entryform"
+        >Department Entry</a
+      >
+      <!-- (click)="buttonFlag=false;masterForm.resetForm();"  -->
+    </li>
+  </ul>
+  <br />
+
+  <div class="tab-pane active" id="details-section" role="tabpanel">
+    <h5>Student Master</h5>
+    <table class="table table-bordered table-hover table-sm">
+      <thead class="table-secondary">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Description</th>
+          <th scope="col" class="action-btn">Action</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let item of student">
+        <tr>
+          <th scope="row">{{ item.rowno }}</th>
+          <td>{{ item.name }}</td>
+          <td>{{ item.email }}</td>
+          <td>{{ item.description }}</td>
+          <td class="action-btn">
+            <div class="btn btn-secondary btn-sm">
+              <i class="bi bi-pencil-square"></i>
+            </div>
+            &nbsp;
+            <div class="btn btn-secondary btn-sm">
+              <i class="bi bi-trash3-fill"></i>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tab-pane" id="form-section" role="tabpanel">
+    <h5>Entry Form</h5>
+  </div>
+</div>

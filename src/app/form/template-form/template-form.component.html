@@ -1,0 +1,169 @@
+<div class="container mt-3 border p-5 rounded">
+  <h3>Template Driven Form</h3>
+  <form
+    novalidate
+    autocomplete="off"
+    #userForm="ngForm"
+    (ngSubmit)="onSubmit(userForm)"
+  >
+    <div class="form-row row">
+      <div class="col-5">
+        <label class="sr-only" for="name">Username</label>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">#</div>
+          </div>
+          <input
+            type="text"
+            placeholder="Username"
+            class="form-control"
+            id="name"
+            name="name"
+            [(ngModel)]="userDetails.name"
+            (keypress)="alphabetWithoutSpace($event)"
+            #usernameCtrl="ngModel"
+            minlength="3"
+            maxlength="10"
+            required
+          />
+        </div>
+        <p
+          class="form-control-feedback text-danger"
+          *ngIf="
+            usernameCtrl.errors && (usernameCtrl.dirty || usernameCtrl.touched)
+          "
+        >
+          <small *ngIf="usernameCtrl.errors['required']"
+            >Please Enter Username</small
+          >
+          <small
+            *ngIf="
+              usernameCtrl.errors['minlength'] ||
+              usernameCtrl.errors['maxlength']
+            "
+            >Username Should Be 3 to 10 Characters Long.
+          </small>
+        </p>
+      </div>
+
+      <div class="col-5">
+        <label class="sr-only" for="inlineFormInputGroup2">Password</label>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">*</div>
+          </div>
+          <input
+            type="password"
+            placeholder="Password"
+            class="form-control"
+            id="password"
+            name="password"
+            [(ngModel)]="userDetails.password"
+            #passCtrl="ngModel"
+            minlength="3"
+            maxlength="10"
+            required
+          />
+        </div>
+        <p
+          class="form-control-feedback text-danger"
+          *ngIf="passCtrl.errors && (passCtrl.dirty || passCtrl.touched)"
+        >
+          <small *ngIf="passCtrl.errors['required']"
+            >Please Enter Password</small
+          >
+          <small
+            *ngIf="passCtrl.errors['minlength'] || passCtrl.errors['maxlength']"
+            >Password Should Be 3 to 10 Characters Long.
+          </small>
+        </p>
+      </div>
+      <div class="form-group col-5">
+        <label for="address">Address</label>
+        <input
+          type="text"
+          placeholder="Address 1"
+          class="form-control"
+          id="address"
+          name="address"
+          [(ngModel)]="userDetails.address"
+          (keypress)="alphanumericWithSpace($event)"
+          #addressCtrl="ngModel"
+          minlength="3"
+          maxlength="50"
+          required
+        />
+      </div>
+      <p
+        class="form-control-feedback text-danger"
+        *ngIf="addressCtrl.errors && (addressCtrl.dirty || addressCtrl.touched)"
+      >
+        <small *ngIf="addressCtrl.errors['required']"
+          >Please Enter Address</small
+        >
+        <small
+          *ngIf="
+            addressCtrl.errors['minlength'] || addressCtrl.errors['maxlength']
+          "
+          >Address Should Be 3 to 10 Characters Long.
+        </small>
+      </p>
+    </div>
+
+    <div class="form-row row">
+      <!-- state list -->
+      <div class="form-group col-md-3">
+        <label for="inputCity">State</label>
+        <ng-select
+          (change)="stateChange()"
+          [(ngModel)]="userDetails.selectedState"
+          name="state"
+          dropdownPosition="bottom"
+          #AreaCtrl="ngModel"
+          placeholder="Select State"
+          required
+        >
+          <ng-option [value]="null" disabled>Select State</ng-option>
+          <ng-option *ngFor="let item of stateList" [value]="item.id">{{
+            item.name
+          }}</ng-option>
+        </ng-select>
+      </div>
+
+      <!-- city list -->
+      <div class="form-group col-md-3">
+        <label for="inputCity">City</label>
+        <ng-select
+          (change)="cityChange()"
+          [(ngModel)]="userDetails.selectedCity"
+          name="city"
+          dropdownPosition="bottom"
+          #AreaCtrl="ngModel"
+          placeholder="Select City"
+          required
+        >
+          <ng-option [value]="null" disabled>Select City</ng-option>
+          <ng-option *ngFor="let item of cityList" [value]="item.id">{{
+            item.name
+          }}</ng-option>
+        </ng-select>
+      </div>
+
+      <div class="form-group col-md-3">
+        <label for="inputZip">Zip</label>
+        <input type="text" class="form-control" id="inputZip" />
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button type="reset" class="btn btn-outline-primary me-2">Reset</button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!userForm.form.valid"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>

@@ -10,12 +10,19 @@ const routes: Routes = [
       {
         path: "",
         loadChildren: () =>
-          import("../dashboard/dashboard.module").then((m) => m.DashboardModule),
+          import("../dashboard/dashboard.module").then(
+            (m) => m.DashboardModule
+          ),
       },
       {
         path: "masters",
         loadChildren: () =>
           import("../masters/masters.module").then((m) => m.MastersModule),
+      },
+      {
+        path: "form",
+        loadChildren: () =>
+          import("../form/form.module").then((m) => m.FormModule),
       },
     ],
   },
