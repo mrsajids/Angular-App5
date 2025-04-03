@@ -1,0 +1,128 @@
+<div class="container">
+  <input type="checkbox" id="check" />
+  <div class="login form">
+    <header>Login</header>
+    <form
+      novalidate
+      autocomplete="off"
+      #signInForm="ngForm"
+      (ngSubmit)="onSubmit(signInForm)"
+    >
+      <!-- 
+    
+    // email input
+      <input
+        class="form-control"
+        type="email"
+        name="email"
+        [(ngModel)]="userObj.email"
+        #emailCtrl="ngModel"
+        placeholder="Enter your email"
+        minlength="3"
+        required
+        email="true"
+      />
+      <div
+        class="form-control-error-message"
+        *ngIf="emailCtrl.invalid && emailCtrl.touched"
+      >
+        <small *ngIf="emailCtrl.errors?.['required']">Email is required</small>
+        <small *ngIf="emailCtrl.errors?.['email']">Enter a valid email.</small>
+        <small
+          *ngIf="emailCtrl.errors?.['minlength'] || emailCtrl.errors?.['maxlength']"
+          >Email should be 3 characters long.
+        </small>
+      </div> -->
+
+      <!-- Username input -->
+      <div class="form-group">
+        <input
+          class="form-control"
+          placeholder="Username"
+          type="text"
+          name="username"
+          [(ngModel)]="userObj.username"
+          required
+          minlength="3"
+          maxlength="10"
+          #usernameCtrl="ngModel"
+          (keypress)="alphabetWithoutSpace($event)"
+        />
+        <span
+          class="form-control-feedback text-danger validationmsg"
+          *ngIf="
+            usernameCtrl.errors && (usernameCtrl.dirty || usernameCtrl.touched)
+          "
+        >
+          <small *ngIf="usernameCtrl.errors['required']"
+            >Please Enter Username</small
+          >
+          <small
+            *ngIf="
+              usernameCtrl.errors['minlength'] ||
+              usernameCtrl.errors['maxlength']
+            "
+            >Username Should Be 3 to 10 Characters Long.
+          </small>
+        </span>
+      </div>
+
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="userObj.password"
+        placeholder="Enter your password"
+        #passwordCtrl="ngModel"
+        class="form-control"
+        minlength="3"
+        required
+      />
+      <div
+        class="form-control-error-message"
+        *ngIf="
+          passwordCtrl.errors && (passwordCtrl.dirty || passwordCtrl.touched)
+        "
+      >
+        <small *ngIf="passwordCtrl.errors['required']"
+          >Password is required</small
+        >
+        <small
+          *ngIf="
+            passwordCtrl.errors['minlength'] || passwordCtrl.errors['maxlength']
+          "
+          >Password should be 3 characters long.
+        </small>
+      </div>
+      <a href="#">Forgot password?</a>
+      <button
+        class="button btn btn-primary d-block w-100"
+        [disabled]="!signInForm.form.valid"
+        type="submit"
+      >
+        Login
+      </button>
+      <!-- <input type="submit" class="button disabled" value="Login" /> -->
+    </form>
+    <div class="signup">
+      <span class="signup"
+        >Don't have an account?
+        <label for="check">Signup</label>
+      </span>
+    </div>
+  </div>
+  <div class="registration form">
+    <header>Signup</header>
+    <form action="#">
+      <input type="text" placeholder="Enter your email" />
+      <input type="password" placeholder="Create a password" />
+      <input type="password" placeholder="Confirm your password" />
+      <input type="button" class="button" value="Signup" />
+    </form>
+    <div class="signup">
+      <span class="signup"
+        >Already have an account?
+        <label for="check">Login</label>
+      </span>
+    </div>
+  </div>
+</div>
