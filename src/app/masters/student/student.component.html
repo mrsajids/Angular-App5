@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container pt-3">
   <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
       <a
@@ -8,7 +8,7 @@
         href="#details-section"
         role="tab"
         aria-controls="details-section"
-        >Department Details</a
+        >Student Details</a
       >
     </li>
     <!-- [ngClass]="allowedPermission.addpermission   == 'false' ? 'disabled_Add_Button': ''" -->
@@ -20,45 +20,204 @@
         href="#form-section"
         role="tab"
         aria-controls="entryform"
-        >Department Entry</a
+        >Student Entry</a
       >
-      <!-- (click)="buttonFlag=false;masterForm.resetForm();"  -->
     </li>
   </ul>
   <br />
+  <div class="tab-content">
+    <div class="tab-pane active" id="details-section" role="tabpanel">
+      <div class="d-flex justify-content-between mb-2">
+        <span class="search-container d-flex">
+          <input
+            type="text"
+            name="searchby"
+            id="searchby"
+            class="search-input-box"
+            placeholder="Search here"
+            autocomplete="off"
+          />
+          <button type="button" id="searchbtn" class="search-icon">
+            <i class="bi bi-search"></i>
+          </button>
+          &nbsp;&nbsp;
+          <span>
+            <button class="btn btn-sm" (click)="this.getWeighningDetails()">
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+          </span>
+        </span>
 
-  <div class="tab-pane active" id="details-section" role="tabpanel">
-    <h5>Student Master</h5>
-    <table class="table table-bordered table-hover table-sm">
-      <thead class="table-secondary">
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Name</th>
-          <th scope="col">Email</th>
-          <th scope="col">Description</th>
-          <th scope="col" class="action-btn">Action</th>
-        </tr>
-      </thead>
-      <tbody *ngFor="let item of student">
-        <tr>
-          <th scope="row">{{ item.rowno }}</th>
-          <td>{{ item.name }}</td>
-          <td>{{ item.email }}</td>
-          <td>{{ item.description }}</td>
-          <td class="action-btn">
-            <div class="btn btn-secondary btn-sm">
-              <i class="bi bi-pencil-square"></i>
+        <span>
+          <label>Records Per Page : &nbsp;</label>
+
+          <select
+            class="form-control p-1"
+            class="form-control-sm table-warning"
+            style="font-size: 11px"
+            name="showrows"
+            id="showrows"
+          >
+            <option value="20" selected>20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+            <option value="500">500</option>
+          </select>
+        </span>
+      </div>
+
+      <table class="table table-bordered table-hover table-sm">
+        <thead class="table-secondary">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Description</th>
+            <th scope="col" class="action-btn">Action</th>
+          </tr>
+        </thead>
+        <tbody
+          *ngIf="
+            departmentDetailsResponse.entity.weighingdetails == [] ||
+            departmentDetailsResponse.entity.totalrecord == 0
+          "
+        >
+          <tr>
+            <td colspan="14" class="text-center">No Record Found</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr
+            *ngFor="
+              let item of departmentDetailsResponse.entity.weighingdetails
+            "
+          >
+            <th scope="row">{{ item.rowno }}</th>
+            <td>{{ item.weighingname }}</td>
+            <td>{{ item.weighingname }}</td>
+            <td>{{ item.description }}</td>
+            <td class="action-btn">
+              <div class="btn btn-secondary btn-sm">
+                <i class="bi bi-pencil-square"></i>
+              </div>
+              &nbsp;
+              <div class="btn btn-secondary btn-sm">
+                <i class="bi bi-trash3-fill"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-between">
+        <div class="">pagination</div>
+        <div class="showing-text">
+          Showing
+          <span style="font-size: 12px; font-weight: bold"
+            >Showing {{ departmentDetailsResponse.entity.recordfrom }} To
+            {{ departmentDetailsResponse.entity.recordto }} (Out Of
+            {{ departmentDetailsResponse.entity.totalrecord }}) Entries</span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane" id="form-section" role="tabpanel">
+      <h5>Entry Form</h5>
+      <form
+        novalidate
+        autocomplete="off"
+        #userForm="ngForm"
+        (ngSubmit)="onSubmit(userForm)"
+      >
+        <div class="form-row row">
+          <div class="col-5">
+            <label class="sr-only" for="name">Username</label>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">#</div>
+              </div>
+              <input
+                type="text"
+                placeholder="Username"
+                class="form-control"
+                id="name"
+                name="name"
+                [(ngModel)]="userDetails.name"
+                (keypress)="alphabetWithoutSpace($event)"
+                #usernameCtrl="ngModel"
+                minlength="3"
+                maxlength="10"
+                required
+              />
             </div>
-            &nbsp;
-            <div class="btn btn-secondary btn-sm">
-              <i class="bi bi-trash3-fill"></i>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="tab-pane" id="form-section" role="tabpanel">
-    <h5>Entry Form</h5>
+            <p
+              class="form-control-feedback text-danger"
+              *ngIf="
+                usernameCtrl.errors &&
+                (usernameCtrl.dirty || usernameCtrl.touched)
+              "
+            >
+              <small *ngIf="usernameCtrl.errors['required']"
+                >Please Enter Username</small
+              >
+              <small
+                *ngIf="
+                  usernameCtrl.errors['minlength'] ||
+                  usernameCtrl.errors['maxlength']
+                "
+                >Username Should Be 3 to 10 Characters Long.
+              </small>
+            </p>
+          </div>
+
+          <div class="form-group col-5">
+            <label for="address">Address</label>
+            <input
+              type="text"
+              placeholder="Address 1"
+              class="form-control"
+              id="address"
+              name="address"
+              [(ngModel)]="userDetails.address"
+              (keypress)="alphanumericWithSpace($event)"
+              #addressCtrl="ngModel"
+              minlength="3"
+              maxlength="50"
+              required
+            />
+          </div>
+          <p
+            class="form-control-feedback text-danger"
+            *ngIf="
+              addressCtrl.errors && (addressCtrl.dirty || addressCtrl.touched)
+            "
+          >
+            <small *ngIf="addressCtrl.errors['required']"
+              >Please Enter Address</small
+            >
+            <small
+              *ngIf="
+                addressCtrl.errors['minlength'] ||
+                addressCtrl.errors['maxlength']
+              "
+              >Address Should Be 3 to 10 Characters Long.
+            </small>
+          </p>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <button type="reset" class="btn btn-outline-primary me-2">
+            Reset
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="!userForm.form.valid"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

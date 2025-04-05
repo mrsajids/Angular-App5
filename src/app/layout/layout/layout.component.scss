@@ -1,4 +1,16 @@
-.layout-container{
-    min-height: 80vh;
-    margin: 5px;
+.layout-container {
+  min-height: 80vh;
+  margin: 5px;
 }
+
+// global
+#apploader {
+  position: absolute;
+  z-index: 99999;
+  width: 100%;
+  display: block;
+  background: #f7f7f796;
+  padding-top: 200px;
+}
+
+// global
