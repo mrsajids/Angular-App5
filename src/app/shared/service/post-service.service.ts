@@ -5,7 +5,7 @@ import { Injectable } from "@angular/core";
   providedIn: "root",
 })
 export class PostServiceService {
-  private apiUrl = "http://localhost:8080/IND_VTS_API/iitfmsweighingdetails"; // Replace with your API endpoint
+  private apiUrl = "http://stage.indtrack.co.in:8080/indvtsbackendapi/iitfmsweighingdetails"; // Replace with your API endpoint
 
   constructor(private http: HttpClient) {}
 
